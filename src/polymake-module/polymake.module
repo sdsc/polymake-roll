@@ -1,0 +1,4 @@
+#%Module1.0
+
+prepend-path PATH  /opt/polymake/bin
+prepend-path LD_LIBRARY_PATH  /opt/polymake/lib/polymake/lib
