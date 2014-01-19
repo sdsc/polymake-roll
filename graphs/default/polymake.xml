@@ -18,8 +18,8 @@
 	</changelog>
 
 	<edge from="base">
-		<to>polymake-commmon</to>
-	<edge>
+		<to>polymake-common</to>
+	</edge>
 
 	<order head="base">
 		<tail>polymake-common</tail>
