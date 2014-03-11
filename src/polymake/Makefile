@@ -62,11 +62,29 @@ REDHAT.ROOT = $(CURDIR)/../../
 include Rules.mk
 include pull.mk
 
+COMPILERSETUP = \
+  if test -e /etc/profile.d/modules.sh; then \
+    . /etc/profile.d/modules.sh; \
+    latestGnu=`module avail 2>&1 | grep -o 'gnu/[^ (]*' | sed 's/gnu.//' | sort -t. -k1,1n -k2,2n -k3,3n | tail -1`; \
+    module load gnu/$${latestGnu}; \
+  fi
+
 build: $(SRC_DIRS)
 	( \
 	  cd $(SOURCE_DIR); \
-	  ./configure --prefix=$(PKGROOT) --with-boost=/opt/boost/gnu --with-gmp=/opt/gnu/gmp --with-mpfr=/opt/gnu/mpfr; \
-	  $(MAKE); \
+	  $(COMPILERSETUP); \
+	  confSwitches="--prefix=$(PKGROOT)" ; \
+	  if test -d /opt/boost/gnu; then \
+	    confSwitches="$${confSwitches} --with-boost=/opt/boost/gnu"; \
+	  fi; \
+	  if test -n "$${GMPHOME}"; then \
+	    confSwitches="$${confSwitches} --with-gmp=$${GMPHOME}"; \
+	  fi; \
+	  if test -n "$${MPFRHOME}"; then \
+	    confSwitches="$${confSwitches} --with-mpfr=$${MPFRHOME}"; \
+	  fi; \
+	  ./configure $${confSwitches}; \
+	  $(MAKE) \
 	)
 	@echo "::: Package $(NAME) build complete :::"
 	
