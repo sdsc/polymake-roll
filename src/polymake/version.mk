@@ -2,7 +2,7 @@ PKGROOT            = /opt/polymake
 NAME               = polymake
 VERSION            = 2.12
 RELEASE            = 1
-TARBALL_POSTFIX    = tgz
+RPM.EXTRAS = AutoReq:No
 
 SRC_SUBDIR         = polymake
 
