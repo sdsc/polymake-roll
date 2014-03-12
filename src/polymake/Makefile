@@ -67,6 +67,7 @@ COMPILERSETUP = \
     . /etc/profile.d/modules.sh; \
     latestGnu=`module avail 2>&1 | grep -o 'gnu/[^ (]*' | sed 's/gnu.//' | sort -t. -k1,1n -k2,2n -k3,3n | tail -1`; \
     module load gnu/$${latestGnu}; \
+    module load boost; \
   fi
 
 build: $(SRC_DIRS)
@@ -74,8 +75,8 @@ build: $(SRC_DIRS)
 	  cd $(SOURCE_DIR); \
 	  $(COMPILERSETUP); \
 	  confSwitches="--prefix=$(PKGROOT)" ; \
-	  if test -d /opt/boost/gnu; then \
-	    confSwitches="$${confSwitches} --with-boost=/opt/boost/gnu"; \
+	  if test -n "$${BOOSTHOME}"; then \
+	    confSwitches="$${confSwitches} --with-boost=$${BOOSTHOME}"; \
 	  fi; \
 	  if test -n "$${GMPHOME}"; then \
 	    confSwitches="$${confSwitches} --with-gmp=$${GMPHOME}"; \
