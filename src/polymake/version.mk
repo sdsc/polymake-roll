@@ -1,8 +1,8 @@
 PKGROOT            = /opt/polymake
 NAME               = polymake
 VERSION            = 2.12
-RELEASE            = 1
-RPM.EXTRAS = AutoReq:No
+RELEASE            = 2
+RPM.EXTRAS         = AutoReq:No
 
 SRC_SUBDIR         = polymake
 

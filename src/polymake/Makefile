@@ -74,7 +74,15 @@ build: $(SRC_DIRS)
 	( \
 	  cd $(SOURCE_DIR); \
 	  $(COMPILERSETUP); \
-	  confSwitches="--prefix=$(PKGROOT)" ; \
+	  case `which gcc` in \
+	    */gcc/*/gcc) \
+	      GNUHOME=`which gcc | sed 's/\/gcc.*//'`;; \
+	    *) \
+	      GNUHOME=`which gcc | sed 's/\/[^\/]*\/gcc$//'`;; \
+	  esac; \
+	  GMPHOME=`find $${GNUHOME} -name gmp.h -print -quit | sed 's/.include.gmp.h//'`; \
+	  MPFRHOME=`find $${GNUHOME} -name mpfr.h -print -quit | sed 's/.include.mpfr.h//'`; \
+	  confSwitches="--prefix=$(PKGROOT)"; \
 	  if test -n "$${BOOSTHOME}"; then \
 	    confSwitches="$${confSwitches} --with-boost=$${BOOSTHOME}"; \
 	  fi; \
