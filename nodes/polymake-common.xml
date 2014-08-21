@@ -2,25 +2,22 @@
 
 <kickstart>
 
+<description>
+www.polymake.org
+</description>
 
-	<description>
-        www.polymake.org
-	</description>
+<copyright>
+Copyright (c) 2000 - 2014 The Regents of the University of California.
+All rights reserved. Rocks(r) v5.5/v6.0 www.rocksclusters.org
+</copyright>
 
-	<copyright>
-	Copyright (c) 2000 - 2012 The Regents of the University of California.
-	All rights reserved. Rocks(r) v5.5/v6.0 www.rocksclusters.org
-	
-	</copyright>
+<!-- perl packages required by polymake -->
+<package>perl-XML-LibXML</package>
+<package>perl-XML-Writer</package>
 
-	<changelog>
-	$Log$
-	</changelog>
-
-	<package>polymake</package>
-	<package>polymake-modules</package>
-	<package>polymake-roll-test</package>
-	<package>roll-polymake-usersguide</package>
-
+<package>polymake</package>
+<package>polymake-modules</package>
+<package>polymake-roll-test</package>
+<package>roll-polymake-usersguide</package>
 
 </kickstart>
