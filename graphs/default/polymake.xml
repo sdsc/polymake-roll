@@ -2,27 +2,21 @@
 
 <graph>
 
-	<description>
-	The polymake Roll
-        www.polymake.org
-	</description>
+<description>
+The polymake Roll
+www.polymake.org
+</description>
 
-	<copyright>
-	Copyright (c) 2000 - 2012 The Regents of the University of California.
-	All rights reserved. Rocks(r) v5.5/v6.0 www.rocksclusters.org
-	
-	</copyright>
+<copyright>
+Copyright (c) 2000 - 2014 The Regents of the University of California.
+All rights reserved. Rocks(r) v5.5/v6.0 www.rocksclusters.org
+</copyright>
 
-	<changelog>
-	$Log$
-	</changelog>
-
-	<edge from="base">
-		<to>polymake-common</to>
-	</edge>
-
-	<order head="base">
-		<tail>polymake-common</tail>
-	</order>
+<edge from="base">
+  <to>polymake-common</to>
+</edge>
+<order head="base">
+  <tail>polymake-common</tail>
+</order>
 
 </graph>
