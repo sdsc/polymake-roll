@@ -57,6 +57,7 @@
 # $Log$
 
 REDHAT.ROOT = $(CURDIR)/../../
+PKGROOT = /opt/polymake
 
 -include $(ROCKSROOT)/etc/Rules.mk
 include Rules.mk
@@ -65,12 +66,19 @@ include pull.mk
 COMPILERSETUP = \
   if test -e /etc/profile.d/modules.sh; then \
     . /etc/profile.d/modules.sh; \
-    latestGnu=`module avail 2>&1 | grep -o 'gnu/[^ (]*' | sed 's/gnu.//' | sort -t. -k1,1n -k2,2n -k3,3n | tail -1`; \
-    module load gnu/$${latestGnu}; \
-    module load boost; \
-  fi
+    module load gnu || true; \
+    module load boost || true; \
+  fi; \
+  echo === Compiler and version ===; \
+  gcc --version; \
+  echo === BOOSTHOME ===; \
+  echo $${BOOSTHOME} \
 
 build: $(SRC_DIRS)
+	# An author's name containing an umlaut causes javac failures.  There's
+	# probably a better way to handle it than stripping the author lines.
+	perl -pi -e '$$_ = "" if $$_ =~ /@author.*Thilo/' \
+	  `find $(SOURCE_DIR) -name '*.java'`
 	( \
 	  cd $(SOURCE_DIR); \
 	  $(COMPILERSETUP); \
@@ -80,9 +88,9 @@ build: $(SRC_DIRS)
 	    *) \
 	      GNUHOME=`which gcc | sed 's/\/[^\/]*\/gcc$//'`;; \
 	  esac; \
-	  GMPHOME=`find $${GNUHOME} -name gmp.h -print -quit | sed 's/.include.gmp.h//'`; \
-	  MPFRHOME=`find $${GNUHOME} -name mpfr.h -print -quit | sed 's/.include.mpfr.h//'`; \
-	  confSwitches="--prefix=$(PKGROOT)"; \
+	  GMPHOME=`find $${GNUHOME} -name gmp.h -print -quit | sed 's#/include/gmp.h##'`; \
+	  MPFRHOME=`find $${GNUHOME} -name mpfr.h -print -quit | sed 's#/include/mpfr.h##'`; \
+	  confSwitches=""; \
 	  if test -n "$${BOOSTHOME}"; then \
 	    confSwitches="$${confSwitches} --with-boost=$${BOOSTHOME}"; \
 	  fi; \
@@ -92,22 +100,26 @@ build: $(SRC_DIRS)
 	  if test -n "$${MPFRHOME}"; then \
 	    confSwitches="$${confSwitches} --with-mpfr=$${MPFRHOME}"; \
 	  fi; \
-	  ./configure $${confSwitches}; \
+	  echo ./configure --prefix=$(ROOT)/$(PKGROOT) $${confSwitches}; \
+	  export CXXFLAGS="-march=x86-64"; \
+	  ./configure --prefix=$(PKGROOT) $${confSwitches}; \
 	  $(MAKE) \
 	)
 	@echo "::: Package $(NAME) build complete :::"
 	
 install::
-	mkdir -p $(ROOT)/$(PKGROOT)
-	mkdir -p $(PKGROOT)
+	# Using a bind mount appears to be the only way to prevent the build
+	# from incorporating $(ROOT) in binary files.
+	mkdir -p -m 755 $(ROOT)/$(PKGROOT)
+	-mkdir -p -m 755 $(PKGROOT)
 	mount --bind $(ROOT)/$(PKGROOT) $(PKGROOT)
 	( \
 	  cd $(SOURCE_DIR); \
-	  $(MAKE) install; \
+	  $(MAKE) install \
 	)
 	umount $(PKGROOT)
+	-rmdir -p $(PKGROOT)
 	@echo "::: Package $(NAME) install complete :::"
 
 clean::
 	rm -rf $(SOURCE_DIR)
-	-umount $(PKGROOT)
