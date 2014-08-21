@@ -65,7 +65,4 @@ default: roll
 
 distclean:: clean
 	-rm -f _arch build.log
-	-rm -rf RPMS SRPMS
-
-cvsclean: clean
-	rm -fr RPMS SRPMS src/build-*
+	rm -fr RPMS SRPMS
