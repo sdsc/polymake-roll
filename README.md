@@ -76,10 +76,4 @@ run the test scripts execute the following command(s):
 
 ```shell
 % /root/rolltests/polymake.t 
-ok 1 - polymake is installed
-ok 2 - polymake test run
-ok 3 - polymake module installed
-ok 4 - polymake version module installed
-ok 5 - polymake version module link created
-1..5
 ```
