@@ -1,4 +1,5 @@
-NAME	= polymake-roll-test
-VERSION	= 2
-RELEASE	= 0
+NAME       = polymake-roll-test
+VERSION    = 2
+RELEASE    = 0
+
 RPM.EXTRAS = AutoReq:No
