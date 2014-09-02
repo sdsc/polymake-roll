@@ -18,7 +18,7 @@ print OUT <<END;
 #!/bin/bash
 if test -f /etc/profile.d/modules.sh; then
   . /etc/profile.d/modules.sh
-  module load gnu polymake
+  module load polymake
 fi
 polymake --help
 END
