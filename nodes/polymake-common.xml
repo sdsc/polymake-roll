@@ -18,6 +18,5 @@ All rights reserved. Rocks(r) v5.5/v6.0 www.rocksclusters.org
 <package>polymake</package>
 <package>polymake-modules</package>
 <package>polymake-roll-test</package>
-<package>roll-polymake-usersguide</package>
 
 </kickstart>
