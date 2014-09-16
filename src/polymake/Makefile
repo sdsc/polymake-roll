@@ -62,16 +62,25 @@ REDHAT.ROOT = $(CURDIR)/../../
 include Rules.mk
 include pull.mk
 
-COMPILERSETUP = \
-  if test -e /etc/profile.d/modules.sh; then \
-    . /etc/profile.d/modules.sh; \
-    module load gnu || true; \
-    module load boost || true; \
-  fi; \
-  echo === Compiler and version ===; \
-  gcc --version; \
+ROLLCOMPILER = gnu
+COMPILERNAME = gnu
+
+CC = gcc
+ifeq ("$(COMPILERNAME)", "intel")
+  CC = icc
+else ifeq ("$(COMPILERNAME)", "pgi")
+  CC = pgcc
+endif
+
+BOOSETSETUP = \
+  module load boost || true; \
   echo === BOOSTHOME ===; \
-  echo $${BOOSTHOME} \
+  echo $${BOOSTHOME}
+
+COMPILERSETUP = \
+  module load $(ROLLCOMPILER) || true; \
+  echo === Compiler and version ===; \
+  $(CC) --version
 
 build: $(SRC_DIRS)
 	# An author's name containing an umlaut causes javac failures.  There's

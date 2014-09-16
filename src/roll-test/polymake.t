@@ -16,10 +16,7 @@ my $TESTFILE = 'tmppolymake';
 open(OUT, ">$TESTFILE.sh");
 print OUT <<END;
 #!/bin/bash
-if test -f /etc/profile.d/modules.sh; then
-  . /etc/profile.d/modules.sh
-  module load polymake
-fi
+module load polymake
 polymake --help
 END
 close(OUT);

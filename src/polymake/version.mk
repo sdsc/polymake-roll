@@ -1,6 +1,6 @@
 NAME           = polymake
 VERSION        = 2.13.1
-RELEASE        = 0
+RELEASE        = 1
 PKGROOT        = /opt/polymake
 
 SRC_SUBDIR     = polymake
