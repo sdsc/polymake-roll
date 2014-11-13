@@ -15,8 +15,8 @@ All rights reserved. Rocks(r) v5.5/v6.0 www.rocksclusters.org
 <package>perl-XML-LibXML</package>
 <package>perl-XML-Writer</package>
 
-<package>polymake</package>
-<package>polymake-modules</package>
-<package>polymake-roll-test</package>
+<package>sdsc-polymake</package>
+<package>sdsc-polymake-modules</package>
+<package>sdsc-polymake-roll-test</package>
 
 </kickstart>

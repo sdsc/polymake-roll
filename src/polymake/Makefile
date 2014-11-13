@@ -60,27 +60,31 @@ REDHAT.ROOT = $(CURDIR)/../../
 
 -include $(ROCKSROOT)/etc/Rules.mk
 include Rules.mk
-include pull.mk
+include $(SDSCDEVEL)/Pull.mk
+include $(SDSCDEVEL)/Rules.mk
 
-ROLLCOMPILER = gnu
-COMPILERNAME = gnu
+DESCRIBE_MPFR = echo built with mpfr $(call GET_MODULE_VERSION, mpfr)
+MODULE_LOAD_MPFR = $(call MODULE_LOAD_PACKAGE, mpfr, MPFRHOME)
 
-CC = gcc
-ifeq ("$(COMPILERNAME)", "intel")
-  CC = icc
-else ifeq ("$(COMPILERNAME)", "pgi")
-  CC = pgcc
-endif
+LICENSE_FILES = polymake-COPYING
 
-BOOSETSETUP = \
-  module load boost || true; \
-  echo === BOOSTHOME ===; \
-  echo $${BOOSTHOME}
+$(NAME).spec: DESCRIPTION LICENSE
 
-COMPILERSETUP = \
-  module load $(ROLLCOMPILER) || true; \
-  echo === Compiler and version ===; \
-  $(CC) --version
+DESCRIPTION:
+	$(MODULE_LOAD_CC); \
+	( \
+	  $(DESCRIBE_PKG); \
+	  $(DESCRIBE_CC); \
+	  $(DESCRIBE_GMP); \
+	  $(DESCRIBE_MPFR); \
+	  $(DESCRIBE_BOOST) \
+	) > $@
+
+LICENSE: $(SRC_DIRS)
+	#if ! grep -q "GNU GENERAL PUBLIC LICENSE" $(SOURCE_DIR)/COPYING; then \
+	#  exit 2; \
+	#fi
+	echo GPL > $@
 
 build: $(SRC_DIRS)
 	# An author's name containing an umlaut causes javac failures.  There's
@@ -89,15 +93,10 @@ build: $(SRC_DIRS)
 	  `find $(SOURCE_DIR) -name '*.java'`
 	( \
 	  cd $(SOURCE_DIR); \
-	  $(COMPILERSETUP); \
-	  case `which gcc` in \
-	    */gcc/*/gcc) \
-	      GNUHOME=`which gcc | sed 's/\/gcc.*//'`;; \
-	    *) \
-	      GNUHOME=`which gcc | sed 's/\/[^\/]*\/gcc$//'`;; \
-	  esac; \
-	  GMPHOME=`find $${GNUHOME} -name gmp.h -print -quit | sed 's#/include/gmp.h##'`; \
-	  MPFRHOME=`find $${GNUHOME} -name mpfr.h -print -quit | sed 's#/include/mpfr.h##'`; \
+	  $(MODULE_LOAD_CC); \
+	  $(MODULE_LOAD_GMP); \
+	  $(MODULE_LOAD_MPFR); \
+	  $(MODULE_LOAD_BOOST); \
 	  confSwitches=""; \
 	  if test -n "$${BOOSTHOME}"; then \
 	    confSwitches="$${confSwitches} --with-boost=$${BOOSTHOME}"; \
@@ -116,18 +115,17 @@ build: $(SRC_DIRS)
 	@echo "::: Package $(NAME) build complete :::"
 	
 install::
+	mkdir -p -m 755 $(ROOT)/$(PKGROOT)
 	# Using a bind mount appears to be the only way to prevent the build
 	# from incorporating $(ROOT) in binary files.
-	mkdir -p -m 755 $(ROOT)/$(PKGROOT)
-	-mkdir -p -m 755 $(PKGROOT)
-	mount --bind $(ROOT)/$(PKGROOT) $(PKGROOT)
+	$(PKGROOT_BIND_MOUNT)
 	( \
 	  cd $(SOURCE_DIR); \
 	  $(MAKE) install \
 	)
-	umount $(PKGROOT)
-	-rmdir -p $(PKGROOT)
+	$(PKGROOT_BIND_UMOUNT)
+	$(INSTALL_LICENSE_FILES)
 	@echo "::: Package $(NAME) install complete :::"
 
 clean::
-	rm -rf $(SOURCE_DIR)
+	rm -rf $(SOURCE_DIR) DESCRIPTION LICENSE

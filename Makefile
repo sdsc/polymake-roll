@@ -58,11 +58,21 @@
 # $Log$
 #
 
+# NOTE: although the package Makefile supports a ROLLCOMPILER variable, we've
+# only been able to build successfully using the gnu compilers.
+ifndef ROLLCOMPILER
+  ROLLCOMPILER = gnu
+endif
+
 -include $(ROLLSROOT)/etc/Rolls.mk
 include Rolls.mk
 
-default: roll
+default:
+	$(MAKE) ROLLCOMPILER="$(ROLLCOMPILER)" roll
+
+clean::
+	rm -f _arch bootstrap.py
 
 distclean:: clean
-	-rm -f _arch build.log
 	rm -fr RPMS SRPMS
+	-rm -f build.log

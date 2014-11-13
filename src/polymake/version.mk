@@ -1,11 +1,16 @@
-NAME           = polymake
+ifndef ROLLCOMPILER
+  ROLLCOMPILER = gnu
+endif
+COMPILERNAME := $(firstword $(subst /, ,$(ROLLCOMPILER)))
+
+NAME           = sdsc-polymake
 VERSION        = 2.13.1
-RELEASE        = 1
+RELEASE        = 3
 PKGROOT        = /opt/polymake
 
 SRC_SUBDIR     = polymake
 
-SOURCE_NAME    = $(NAME)
+SOURCE_NAME    = polymake
 SOURCE_SUFFIX  = tar.bz2
 SOURCE_VERSION = 2.13-1
 SOURCE_PKG     = $(SOURCE_NAME)-$(SOURCE_VERSION).$(SOURCE_SUFFIX)
