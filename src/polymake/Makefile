@@ -66,8 +66,6 @@ include $(SDSCDEVEL)/Rules.mk
 DESCRIBE_MPFR = echo built with mpfr $(call GET_MODULE_VERSION, mpfr)
 MODULE_LOAD_MPFR = $(call MODULE_LOAD_PACKAGE, mpfr, MPFRHOME)
 
-LICENSE_FILES = polymake-COPYING
-
 $(NAME).spec: DESCRIPTION LICENSE
 
 DESCRIPTION:
@@ -81,9 +79,8 @@ DESCRIPTION:
 	) > $@
 
 LICENSE: $(SRC_DIRS)
-	#if ! grep -q "GNU GENERAL PUBLIC LICENSE" $(SOURCE_DIR)/COPYING; then \
-	#  exit 2; \
-	#fi
+	cp license-files/COPYING $(SOURCE_DIR)/
+	$(CHECK_LICENSE_FILES)
 	echo GPL > $@
 
 build: $(SRC_DIRS)
