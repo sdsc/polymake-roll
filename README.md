@@ -2,10 +2,9 @@
 
 ## Overview
 
-This roll bundles... polymake
+This roll bundles the polymake geometry application.
 
 For more information about the various packages included in the polymake roll please visit their official web pages: www.polymake.org
-
 
 
 ## Requirements
@@ -21,15 +20,17 @@ Rocks development machine.
 
 ## Dependencies
 
-boost (sdsc boost roll) gmp,mpfr (sdsc gnucompiler roll)
+The sdsc-roll must be installed on the build machine, since the build process
+depends on make include files provided by that roll.
 
-yum perl packages:
+The roll sources assume that modulefiles provided by SDSC compiler
+rolls are available, but it will build without them as long as the environment
+variables they provide are otherwise defined.
 
-perl-XML-LibXSLT.x86_64
-perl-IO-Zlib.x86_64
-perl-Term-UI.x86_64
-perl-TermReadKey.x86_64
-
+The build process requires the GMP, MPFR, and BOOST libraries and assumes that
+the modulefiles provided by the SDSC boost-roll and gnucompiler-roll are available.  It will build without
+the modulefiles as long as the environment variables they provide are otherwise
+defined.
 
 
 ## Building
