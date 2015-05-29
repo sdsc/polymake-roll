@@ -20,6 +20,8 @@ Rocks development machine.
 
 ## Dependencies
 
+yum install perl-Extutils-Embed
+
 The sdsc-roll must be installed on the build machine, since the build process
 depends on make include files provided by that roll.
 
