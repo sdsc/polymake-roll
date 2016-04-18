@@ -58,8 +58,6 @@
 # $Log$
 #
 
-# NOTE: although the package Makefile supports a ROLLCOMPILER variable, we've
-# only been able to build successfully using the gnu compilers.
 ifndef ROLLCOMPILER
   ROLLCOMPILER = gnu
 endif
