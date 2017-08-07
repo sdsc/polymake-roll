@@ -29,9 +29,15 @@ if($appliance =~ /$installedOnAppliancesPattern/) {
 }
 
 SKIP: {
-  skip 'polymake not installed', 1 if ! $isInstalled;
+  skip 'polymake not installed', 4 if ! $isInstalled;
   $output = `bash $TESTFILE.sh 2>&1`;
   ok($output =~ /usage: polymake/, 'polymake runs');
+  `/bin/ls /opt/modulefiles/applications/polymake/[0-9.]* 2>&1`;
+  ok($? == 0, 'polymake module installed');
+  `/bin/ls /opt/modulefiles/applications/polymake/.version.[0-9.]* 2>&1`;
+  ok($? == 0, 'polymake version module installed');
+  ok(-l '/opt/modulefiles/applications/polymake/.version',
+     'polymake version module link created');
 }
 
 `rm -f $TESTFILE*`;
