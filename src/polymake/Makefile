@@ -69,7 +69,10 @@ MODULE_LOAD_MPFR = $(call MODULE_LOAD_PACKAGE, mpfr, MPFRHOME)
 $(NAME).spec: DESCRIPTION LICENSE
 
 DESCRIPTION:
-	$(MODULE_LOAD_CC); \
+	# Compilation fails w/gnu v7 compilers, so use the system gnu
+	if test "$(COMPILERNAME)" != "gnu"; then \
+	  $(MODULE_LOAD_CC); \
+	fi; \
 	( \
 	  $(DESCRIBE_PKG); \
 	  $(DESCRIBE_CC); \
@@ -104,8 +107,11 @@ build: $(SRC_DIRS)
 	  if test -n "$${MPFRHOME}"; then \
 	    confSwitches="$${confSwitches} --with-mpfr=$${MPFRHOME}"; \
 	  fi; \
+	  if test "$(COMPILERNAME)" = "gnu"; then \
+	    module unload gnu; \
+	  fi; \
 	  echo ./configure --prefix=$(ROOT)/$(PKGROOT) $${confSwitches}; \
-	  export CXXFLAGS="-march=x86-64"; \
+	  export CXXFLAGS="-std=c++98 -march=x86-64"; \
 	  ./configure --prefix=$(PKGROOT) $${confSwitches}; \
 	  $(MAKE) \
 	)

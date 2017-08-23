@@ -5,7 +5,7 @@ COMPILERNAME := $(firstword $(subst /, ,$(ROLLCOMPILER)))
 
 NAME           = sdsc-polymake
 VERSION        = 2.14
-RELEASE        = 3
+RELEASE        = 4
 PKGROOT        = /opt/polymake
 
 SRC_SUBDIR     = polymake
