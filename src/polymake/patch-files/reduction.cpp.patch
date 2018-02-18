@@ -1,0 +1,19 @@
+--- reduction.cpp	2018-02-17 20:24:45.828353217 -0800
++++ patch-files/reduction.cpp	2018-02-17 20:25:17.335548311 -0800
+@@ -32,11 +32,11 @@
+ 
+ template<typename Integer>
+ Candidate<Integer>::Candidate(const vector<Integer>& v, const vector<Integer>& val, long sd){
+-    cand(v);
+-    values(val);
+-    sort_deg(sd);
+-    reducible(true);
+-    original_generator(false);
++    cand=v;
++    values=val;
++    sort_deg=sd;
++    reducible=true;
++    original_generator=false;
+     // in_HB(false);   
+ }
+ 

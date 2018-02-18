@@ -69,10 +69,7 @@ MODULE_LOAD_MPFR = $(call MODULE_LOAD_PACKAGE, mpfr, MPFRHOME)
 $(NAME).spec: DESCRIPTION LICENSE
 
 DESCRIPTION:
-	# Compilation fails w/gnu v7 compilers, so use the system gnu
-	if test "$(COMPILERNAME)" != "gnu"; then \
-	  $(MODULE_LOAD_CC); \
-	fi; \
+	$(MODULE_LOAD_CC); \
 	( \
 	  $(DESCRIBE_PKG); \
 	  $(DESCRIBE_CC); \
@@ -91,6 +88,8 @@ build: $(SRC_DIRS)
 	# probably a better way to handle it than stripping the author lines.
 	perl -pi -e '$$_ = "" if $$_ =~ /@author.*Thilo/' \
 	  `find $(SOURCE_DIR) -name '*.java'`
+	patch $(SOURCE_DIR)/lib/core/include/Graph.h patch-files/Graph.h.patch
+	patch $(SOURCE_DIR)/bundled/libnormaliz/external/libnormaliz/reduction.cpp patch-files/reduction.cpp.patch
 	( \
 	  cd $(SOURCE_DIR); \
 	  $(MODULE_LOAD_CC); \
@@ -106,9 +105,6 @@ build: $(SRC_DIRS)
 	  fi; \
 	  if test -n "$${MPFRHOME}"; then \
 	    confSwitches="$${confSwitches} --with-mpfr=$${MPFRHOME}"; \
-	  fi; \
-	  if test "$(COMPILERNAME)" = "gnu"; then \
-	    module unload gnu; \
 	  fi; \
 	  echo ./configure --prefix=$(ROOT)/$(PKGROOT) $${confSwitches}; \
 	  export CXXFLAGS="-std=c++98 -march=x86-64"; \
