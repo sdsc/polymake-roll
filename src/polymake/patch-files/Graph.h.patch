@@ -1,0 +1,50 @@
+--- Graph.h	2018-02-17 18:58:43.068653234 -0800
++++ patch-files/Graph.h	2018-02-17 19:14:16.445829112 -0800
+@@ -454,13 +454,13 @@
+    NodeMapBase() : refc(1), _table(0) {}
+ 
+    virtual ~NodeMapBase() {}
+-   virtual void init()=0;
+-   virtual void reset(int n=0)=0;
+-   virtual void resize(size_t n_alloc_new, int n, int nnew)=0;
+-   virtual void shrink(size_t n_alloc_new, int n)=0;
+-   virtual void move_entry(int n, int nnew)=0;
+-   virtual void revive_entry(int n)=0;
+-   virtual void delete_entry(int n)=0;
++   virtual void init() {}
++   virtual void reset(int n=0) {}
++   virtual void resize(size_t n_alloc_new, int n, int nnew) {}
++   virtual void shrink(size_t n_alloc_new, int n) {}
++   virtual void move_entry(int n, int nnew) {}
++   virtual void revive_entry(int n) {}
++   virtual void delete_entry(int n) {}
+ };
+ 
+ template <typename> class EdgeMapDataAccess;
+@@ -472,12 +472,12 @@
+ 
+    EdgeMapBase() : refc(1), _table(0)  {}
+    virtual ~EdgeMapBase() {}
+-   virtual void reset()=0;
++   virtual void reset() {}
+ 
+-   virtual void revive_entry(int e)=0;
+-   virtual void delete_entry(int e)=0;
+-   virtual void realloc(size_t n_alloc)=0;
+-   virtual void add_bucket(int n)=0;
++   virtual void revive_entry(int e) {}
++   virtual void delete_entry(int e) {}
++   virtual void realloc(size_t n_alloc) {}
++   virtual void add_bucket(int n) {}
+ };
+ 
+ struct EdgeMapDenseBase : public EdgeMapBase {
+@@ -2445,7 +2445,7 @@
+ 
+    class map2graph_connector : public shared_alias_handler {
+    protected:
+-      virtual void divorce(const table_type& t)=0;
++      virtual void divorce(const table_type& t) {}
+       virtual ~map2graph_connector() {}
+       friend class divorce_maps;
+       friend class Graph<_dir>;
