@@ -5,7 +5,7 @@ COMPILERNAME := $(firstword $(subst /, ,$(ROLLCOMPILER)))
 
 NAME           = sdsc-polymake
 VERSION        = 2.14
-RELEASE        = 5
+RELEASE        = 6
 PKGROOT        = /opt/polymake
 
 SRC_SUBDIR     = polymake
@@ -18,4 +18,5 @@ SOURCE_DIR     = $(SOURCE_NAME)-$(SOURCE_VERSION)
 
 TAR_BZ2_PKGS   = $(SOURCE_PKG)
 
-RPM.EXTRAS     = AutoReq:No
+RPM.EXTRAS     = AutoReq:No\nAutoProv:No
+RPM.PREFIX     = $(PKGROOT)
