@@ -8,14 +8,21 @@ www.polymake.org
 </description>
 
 <copyright>
-Copyright (c) 2000 - 2014 The Regents of the University of California.
-All rights reserved. Rocks(r) v5.5/v6.0 www.rocksclusters.org
+Copyright (c) 2000 - 2017 The Regents of the University of California.
+All rights reserved. Rocks(r) v7.0 www.rocksclusters.org
 </copyright>
 
-<edge from="base">
+<edge from="compute">
   <to>polymake-common</to>
 </edge>
-<order head="base">
+<order head="compute">
+  <tail>polymake-common</tail>
+</order>
+
+<edge from="login">
+  <to>polymake-common</to>
+</edge>
+<order head="login">
   <tail>polymake-common</tail>
 </order>
 
