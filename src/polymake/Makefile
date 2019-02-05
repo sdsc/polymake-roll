@@ -87,6 +87,11 @@ build: $(SRC_DIRS)
 	# probably a better way to handle it than stripping the author lines.
 	perl -pi -e '$$_ = "" if $$_ =~ /@author.*Thilo/' \
 	  `find $(SOURCE_DIR) -name '*.java'`
+	patch $(SOURCE_DIR)/lib/core/include/Graph.h patch-files/Graph.h.patch
+	patch $(SOURCE_DIR)/include/apps/polymake/group/permlib_tools.h  patch-files/permlib_tools.h.patch
+	patch $(SOURCE_DIR)/bundled/sympol/external/sympol/sympol/symmetrycomputation.h patch-files/symmetrycomputation.h.patch
+	patch $(SOURCE_DIR)/bundled/sympol/external/sympol/sympol/symmetrygroupconstruction/graphconstructiondefault.h patch-files//graphconstructiondefault.h.patch 
+	patch $(SOURCE_DIR)/external/permlib/include/permlib/permutation.h patch-files/permutation.h.patch
 	( \
 	  cd $(SOURCE_DIR); \
 	  $(MODULE_LOAD_CC); \
@@ -106,7 +111,7 @@ build: $(SRC_DIRS)
 	  export CXXFLAGS="-std=c++14 -march=x86-64"; \
 	  echo ./configure --prefix=$(ROOT)/$(PKGROOT) $${confSwitches}; \
 	  ./configure --prefix=$(PKGROOT) $${confSwitches}; \
-	  $(MAKE) \
+	  $(MAKE) -j 16 \
 	)
 	@echo "::: Package $(NAME) build complete :::"
 	

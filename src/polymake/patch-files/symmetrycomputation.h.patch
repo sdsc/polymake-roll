@@ -1,0 +1,10 @@
+--- polymake-3.1/bundled/sympol/external/sympol/sympol/symmetrycomputation.h	2017-03-28 02:30:14.000000000 -0700
++++ patch-files/symmetrycomputation.h	2019-02-05 10:51:01.929309218 -0800
+@@ -34,6 +34,7 @@
+ #include <string>
+ 
+ #include <permlib/transversal/orbit_set.h>
++#include <boost/next_prior.hpp>
+ 
+ namespace sympol {
+ 

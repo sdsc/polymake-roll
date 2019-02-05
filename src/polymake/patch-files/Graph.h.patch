@@ -1,0 +1,16 @@
+--- polymake-3.1/lib/core/include/Graph.h	2017-03-28 02:30:14.000000000 -0700
++++ patch-files/Graph.h	2019-02-05 09:36:13.470172150 -0800
+@@ -709,8 +709,13 @@
+    void swap(Table& t)
+    {
+       std::swap(R,t.R);
++#if defined(__GNUC__) && !defined(__clang__) && __GNUC__ >= 7
++     node_maps.swap(t.node_maps);
++     edge_maps.swap(t.edge_maps);
++#else
+       std::swap(node_maps, t.node_maps);
+       std::swap(edge_maps, t.edge_maps);
++#endif
+       std::swap(n_nodes, t.n_nodes);
+       std::swap(free_node_id, t.free_node_id);
+       std::swap(free_edge_ids, t.free_edge_ids);
