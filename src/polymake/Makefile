@@ -87,8 +87,6 @@ build: $(SRC_DIRS)
 	# probably a better way to handle it than stripping the author lines.
 	perl -pi -e '$$_ = "" if $$_ =~ /@author.*Thilo/' \
 	  `find $(SOURCE_DIR) -name '*.java'`
-	patch $(SOURCE_DIR)/lib/core/include/Graph.h patch-files/Graph.h.patch
-	patch $(SOURCE_DIR)/bundled/libnormaliz/external/libnormaliz/reduction.cpp patch-files/reduction.cpp.patch
 	( \
 	  cd $(SOURCE_DIR); \
 	  $(MODULE_LOAD_CC); \
@@ -105,8 +103,8 @@ build: $(SRC_DIRS)
 	  if test -n "$${MPFRHOME}"; then \
 	    confSwitches="$${confSwitches} --with-mpfr=$${MPFRHOME}"; \
 	  fi; \
+	  export CXXFLAGS="-std=c++14 -march=x86-64"; \
 	  echo ./configure --prefix=$(ROOT)/$(PKGROOT) $${confSwitches}; \
-	  export CXXFLAGS="-std=c++98 -march=x86-64"; \
 	  ./configure --prefix=$(PKGROOT) $${confSwitches}; \
 	  $(MAKE) \
 	)

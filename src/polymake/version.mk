@@ -1,6 +1,4 @@
-ifndef ROLLCOMPILER
-  ROLLCOMPILER = gnu
-endif
+ROLLCOMPILER = gnu
 COMPILERNAME := $(firstword $(subst /, ,$(ROLLCOMPILER)))
 
 NAME           = sdsc-polymake
