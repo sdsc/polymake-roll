@@ -21,6 +21,9 @@ Rocks development machine.
 ## Dependencies
 
 yum install perl-ExtUtils-Embed
+yum install perl-XML-Writer
+
+Note that this version of polymake (3.1) requires a later version of perl (5.16) then is provided bycentos 6 (5.10). The commit that represents the latest commit that can be used with centos 6 is tagged "last_centos"
 
 The sdsc-roll must be installed on the build machine, since the build process
 depends on make include files provided by that roll.
