@@ -1,5 +1,21 @@
 # SDSC polymake roll
 
+## Rocks and CentOS Version Support Change
+
+> ** IMPORTANT NOTICE **
+>
+> The head of the master branch of this repository no longer supports build
+> and install on Rocks/CentOS 6 and only supports Rocks/CentOS 7 
+> (see the Dependencies section for more details). The last
+> supported commit of this repository for Rocks/CentOS 6 is 2539bab
+> which is tagged as last\_centos6.
+>
+> If/when building this roll for Rocks/CentOS 6 you **must** checkout the
+> last\_centos6 tag and build from there. If you need to make custom
+> changes to the roll source for Rocks/CentOS 6 you should fork this repository
+> and create your own branch from the 
+> last\_centos6 tag.
+
 ## Overview
 
 This roll bundles the polymake geometry application.
@@ -20,7 +36,10 @@ Rocks development machine.
 
 ## Dependencies
 
-yum install perl-ExtUtils-Embed
+yum install perl-ExtUtils-Embed<br>
+yum install perl-XML-Writer
+
+Note that this version of polymake (3.1) requires a later version of perl (5.16) then is provided by centos 6 (5.10). The commit that represents the latest commit that can be used with centos 6 is tagged "last_centos"
 
 The sdsc-roll must be installed on the build machine, since the build process
 depends on make include files provided by that roll.
@@ -48,19 +67,6 @@ A successful build will create the file `polymake-*.disk1.iso`.  If you built th
 roll on a Rocks frontend, proceed to the installation step. If you built the
 roll on a Rocks development appliance, you need to copy the roll to your Rocks
 frontend before continuing with installation.
-
-This roll source supports building with different compilers.
-The `ROLLCOMPILER` make variable can be used to
-specify the names of compiler modulefiles to use for building the
-software, e.g.,
-
-```shell
-% make ROLLCOMPILER=intel 2>&1 | tee build.log
-```
-
-The build process recognizes "gnu", "intel" or "pgi" as the value for the
-`ROLLCOMPILER` variable.  The default value is "gnu".
-
 
 ## Installation
 

@@ -88,7 +88,10 @@ build: $(SRC_DIRS)
 	perl -pi -e '$$_ = "" if $$_ =~ /@author.*Thilo/' \
 	  `find $(SOURCE_DIR) -name '*.java'`
 	patch $(SOURCE_DIR)/lib/core/include/Graph.h patch-files/Graph.h.patch
-	patch $(SOURCE_DIR)/bundled/libnormaliz/external/libnormaliz/reduction.cpp patch-files/reduction.cpp.patch
+	patch $(SOURCE_DIR)/include/apps/polymake/group/permlib_tools.h  patch-files/permlib_tools.h.patch
+	patch $(SOURCE_DIR)/bundled/sympol/external/sympol/sympol/symmetrycomputation.h patch-files/symmetrycomputation.h.patch
+	patch $(SOURCE_DIR)/bundled/sympol/external/sympol/sympol/symmetrygroupconstruction/graphconstructiondefault.h patch-files//graphconstructiondefault.h.patch 
+	patch $(SOURCE_DIR)/external/permlib/include/permlib/permutation.h patch-files/permutation.h.patch
 	( \
 	  cd $(SOURCE_DIR); \
 	  $(MODULE_LOAD_CC); \
@@ -105,10 +108,10 @@ build: $(SRC_DIRS)
 	  if test -n "$${MPFRHOME}"; then \
 	    confSwitches="$${confSwitches} --with-mpfr=$${MPFRHOME}"; \
 	  fi; \
+	  export CXXFLAGS="-std=c++14 -march=x86-64"; \
 	  echo ./configure --prefix=$(ROOT)/$(PKGROOT) $${confSwitches}; \
-	  export CXXFLAGS="-std=c++98 -march=x86-64"; \
 	  ./configure --prefix=$(PKGROOT) $${confSwitches}; \
-	  $(MAKE) \
+	  $(MAKE) -j 16 \
 	)
 	@echo "::: Package $(NAME) build complete :::"
 	

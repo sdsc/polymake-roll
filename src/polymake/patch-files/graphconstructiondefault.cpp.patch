@@ -1,0 +1,10 @@
+--- polymake-3.1/bundled/sympol/external/sympol/sympol/symmetrygroupconstruction/graphconstructiondefault.cpp	2017-03-28 02:30:14.000000000 -0700
++++ patch-files/graphconstructiondefault.cpp	2019-02-05 10:34:31.108302886 -0800
+@@ -5,6 +5,7 @@
+ #include <permlib/permlib_api.h>
+ #include <permlib/search/partition/matrix_automorphism_search.h>
+ #include <permlib/symmetric_group.h>
++#include <boost/next_prior.hpp>
+ 
+ using namespace sympol;
+ using namespace yal;
