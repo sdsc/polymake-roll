@@ -59,9 +59,10 @@
 
 -include $(ROLLSROOT)/etc/Rolls.mk
 include Rolls.mk
+override ROLLCOMPILER=gnu
 
 default:
-	$(MAKE) roll
+	$(MAKE) ROLLCOMPILER="$(ROLLCOMPILER)" roll
 
 clean::
 	rm -f _arch bootstrap.py
