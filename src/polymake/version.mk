@@ -1,9 +1,6 @@
-ROLLCOMPILER = gnu
-COMPILERNAME := $(firstword $(subst /, ,$(ROLLCOMPILER)))
-
 NAME           = sdsc-polymake
 VERSION        = 3.1
-RELEASE        = 0
+RELEASE        = 1
 PKGROOT        = /opt/polymake
 
 SRC_SUBDIR     = polymake

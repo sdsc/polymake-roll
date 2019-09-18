@@ -62,9 +62,6 @@ include Rules.mk
 include $(SDSCDEVEL)/Pull.mk
 include $(SDSCDEVEL)/Rules.mk
 
-DESCRIBE_MPFR = echo built with mpfr $(call GET_MODULE_VERSION, mpfr)
-MODULE_LOAD_MPFR = $(call MODULE_LOAD_PACKAGE, mpfr, MPFRHOME)
-
 $(NAME).spec: DESCRIPTION LICENSE
 
 DESCRIPTION:
@@ -72,8 +69,6 @@ DESCRIPTION:
 	( \
 	  $(DESCRIBE_PKG); \
 	  $(DESCRIBE_CC); \
-	  $(DESCRIBE_GMP); \
-	  $(DESCRIBE_MPFR); \
 	  $(DESCRIBE_BOOST) \
 	) > $@
 
@@ -94,22 +89,18 @@ build: $(SRC_DIRS)
 	patch $(SOURCE_DIR)/external/permlib/include/permlib/permutation.h patch-files/permutation.h.patch
 	( \
 	  cd $(SOURCE_DIR); \
+          $(call MODULE_LOAD_COMPILER,gnu,gcc); \
 	  $(MODULE_LOAD_CC); \
-	  $(MODULE_LOAD_GMP); \
-	  $(MODULE_LOAD_MPFR); \
 	  $(MODULE_LOAD_BOOST); \
 	  confSwitches=""; \
 	  if test -n "$${BOOSTHOME}"; then \
 	    confSwitches="$${confSwitches} --with-boost=$${BOOSTHOME}"; \
 	  fi; \
-	  if test -n "$${GMPHOME}"; then \
-	    confSwitches="$${confSwitches} --with-gmp=$${GMPHOME}"; \
-	  fi; \
-	  if test -n "$${MPFRHOME}"; then \
-	    confSwitches="$${confSwitches} --with-mpfr=$${MPFRHOME}"; \
-	  fi; \
 	  export CXXFLAGS="-std=c++14 -march=x86-64"; \
 	  echo ./configure --prefix=$(ROOT)/$(PKGROOT) $${confSwitches}; \
+          export CC=$(CC); \
+          export CXX=$(CXX); \
+          export FC=$(FC); \
 	  ./configure --prefix=$(PKGROOT) $${confSwitches}; \
 	  $(MAKE) -j 16 \
 	)
@@ -122,6 +113,9 @@ install::
 	$(PKGROOT_BIND_MOUNT)
 	( \
 	  cd $(SOURCE_DIR); \
+          $(call MODULE_LOAD_COMPILER,gnu,gcc); \
+	  $(MODULE_LOAD_CC); \
+	  $(MODULE_LOAD_BOOST); \
 	  $(MAKE) install \
 	)
 	$(PKGROOT_BIND_UMOUNT)
